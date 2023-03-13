@@ -1,5 +1,24 @@
+# Introduction
 I have a HTML web page and Arduino with keyboard device, so the idea is whenever I press the keyboard, the value of the pressed button displayed on the webpage
 
+# Requirements:
+- node 18
+- yarn 1.2.19
+- Arduino device
+- 4 x 4-key keyboard
+- Arduino IDE
+
+# Installation
+```
+git clone https://github.com/najmi9/arduino-nodejs-communication.git
+yarn install
+```
+
+Go to port 3000.
+
+make sure you have upload the code in `arduino_to_node.ino` to your Arduino device.
+
+# Bonus
 The /dev/ttyACM0 device has the group of dialout:
 
 ```
@@ -18,6 +37,7 @@ To permanently solve the issue with the permissions for /dev/ttyACM0, all you ne
 sudo usermod -a -G dialout <username>
 ```
 
+Who Am I?
 ```
 whoami
 ```
