@@ -1,0 +1,14 @@
+{
+    "license": "MIT",
+    "type": "module",
+    "name": "basic-socket",
+    "version": "0.0.1",
+    "description": "Communication between Arduino and HTML/JavaScript",
+    "dependencies": {
+        "serialport": "10.5.0",
+        "socket.io": "4.6.1"
+    },
+    "scripts": {
+        "start": "npx nodemon app.js"
+    }
+}

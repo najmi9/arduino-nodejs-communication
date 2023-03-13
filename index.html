@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js'></script>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+    <title>Arduino in Browser</title>
+</head>
+<body>
+
+    <main class="container">
+        <article>
+            <h1>Communicating from an Arduino to Node.js</h1>
+            <form method="post" action="/">
+                <input type="text" id="password" name="password">
+                <button type="submit">Submit</button>
+                <button type="reset" class="contrast">Reset</button>
+            </form>
+        </article>
+    </main>
+
+    <script>
+        const socket = io();
+        const password = document.querySelector('#password');
+        if (null === password) {
+            throw new Error('Unable for find input#password tag');
+        }
+
+        socket.on('data', function (data) {
+            // Get data from bufferArray data variable
+            const int8View = new Int8Array(data);
+            if (0 === int8View.length) {
+                return;
+            }
+
+            const pressedButtonValue = getValueFromASCII(int8View[0]);
+            if (0 === pressedButtonValue.trim().length) {
+                return;
+            }
+
+            password.value += pressedButtonValue;
+        });
+
+        socket.on('connect', function () {
+            console.log('Connected');
+        });
+
+        function getValueFromASCII(asciiString) {
+            let regularString = "";
+
+            asciiString = `${asciiString}`;
+            // Split the string into an array of ASCII codes
+            const asciiArray = asciiString.split(" ");
+
+            for (let i = 0; i < asciiArray.length; i++) {
+                const asciiCode = parseInt(asciiArray[i]);
+                const letter = String.fromCharCode(asciiCode);
+                regularString += letter;
+            }
+
+            return regularString;
+        }
+    </script>
+</body>
+</html>
